@@ -16,11 +16,8 @@ class Solution {
         }
         int pos  = binarySearch(intervals, newInterval.start);
         int i = 0;
-        boolean inserted = false;
         while(i < intervals.size()) {
-        	if(i < pos - 1 || inserted) {
-        		results.add(intervals.get(i++));
-        	} else if(i == pos - 1) {
+			if(i == pos - 1) {
         		Interval ii = intervals.get(i);
         		if(ii.end < newInterval.start) {
         			results.add(ii);
@@ -35,7 +32,11 @@ class Solution {
         			i++;
         		}
         		results.add(newInterval);
-        		inserted = true;
+        		if(i < intervals.size()) {
+        			results.add(intervals.get(i++));
+        		}
+        	} else {
+        		results.add(intervals.get(i++));
         	}
         }
         if(intervals.size() == pos) {
