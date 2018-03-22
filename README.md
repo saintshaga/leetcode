@@ -6,6 +6,14 @@
 
 2， 代码实现的时候，犯了哪些小错误，要注意哪些方面
 
+2018/03/21 **3.longest-substring-without-repeating-characters**
+
+思路完全不对
+
+2018/03/21 **5.Longest Palindromic Substring**
+
+回文，忘记了最长公共子串的解法，思路也不对。
+
 2018/03/20 **81.search-in-rotated-sorted-array-ii**
 
 对于mid跟l相等的时候，这种情况不知道怎么处理
