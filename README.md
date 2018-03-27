@@ -6,6 +6,14 @@
 
 2， 代码实现的时候，犯了哪些小错误，要注意哪些方面
 
+2018/03/27 **20.valid-parentheses**
+
+犯了两个很低级的错误： stack.pop的时候，里面可能没有元素；map里面取元素比较的时候没有仔细考虑，取错了
+
+2018/03/27 **17.letter-combinations-of-a-phone-number**
+
+在递归到i=n的时候，应该是返回一个空串的数组，而不是空的数组
+
 2018/03/21 **3.longest-substring-without-repeating-characters**
 
 思路完全不对
