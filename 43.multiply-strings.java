@@ -3,6 +3,37 @@ class Solution {
         if(num1 == null || num2 == null) {
         	return null;
         }
+        if(num1.length() == 0 || num2.length() == 0) {
+        	return "";
+        }
+        int n1 = num1.length(), n2 = num2.length();
+        int[] result = new int[n1+n2];
+        for(int j=0; j<num2.length(); j++) {
+        	int b = num2.charAt(n2-1-j) - '0';
+        	for(int i=0; i<num1.length(); i++) {
+        		int a = num1.charAt(n1-1-i) - '0';
+        		int c = a*b;
+        		result[i+j] += c%10;
+        		result[i+j+1] += c/10;
+        	}
+        }
+        StringBuilder sb = new StringBuilder();
+        int additional = 0;
+        for(int i=0; i<n1+n2; i++) {
+        	int c = result[i] + additional;
+        	sb.append(c%10);
+        	additional = c/10;
+        }
+        String mul = sb.reverse().toString();
+        int i=0;
+        while(mul.charAt(i) == '0' && i < mul.length() - 1) i++;
+        return mul.substring(i);
+
+    }
+    public String multiply2(String num1, String num2) {
+        if(num1 == null || num2 == null) {
+        	return null;
+        }
         if(num1.length() < num2.length()) {
         	return multiply(num2, num1);
         }
