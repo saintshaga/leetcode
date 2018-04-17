@@ -3,51 +3,31 @@ class Solution {
         if(nums == null || nums.length == 0) {
         	return new ArrayList<>();
         }
-        return permute(nums, 0);
+        List<Integer> l = Arrays.stream(nums).boxed().collect(Collectors.toList());
+        return permute(l);
     }
 
-    private List<List<Integer>> permute(int[] nums, int st) {
+    private List<List<Integer>> permute(List<Integer> nums) {
     	List<List<Integer>> results = new ArrayList<>();
-    	if(st == nums.length-1) {
+    	if(nums.size() == 1) {
     		List<Integer> result = new ArrayList<>();
-    		result.add(nums[st]);
+    		result.add(nums.get(0));
     		results.add(result);
     		return results;
     	}
-    	for(int i=st; i<nums.length; i++) {
-    		if(i > 0 && nums[i] == nums[i-1]) {
+    	for(int i=0; i<nums.size(); i++) {
+    		if(i > 0 && nums.get(i) == nums.get(i-1)) {
     			continue;
     		}
-    		insertHead(nums, st, i);
-    		List<List<Integer>> ri = permute(nums, st+1);
+    		int tmp = nums.remove(i);
+    		List<List<Integer>> ri = permute(nums);
     		for(List<Integer> r : ri) {
-    			r.add(0, nums[st]);
+    			r.add(0, tmp);
     			results.add(r);
     		}
-    		recover(nums, st, i);
+    		nums.add(i, tmp);
     	}
     	return results;
     }
 
-    void insertHead(int[] nums, int i, int j) {
-    	if(i == j) {
-    		return;
-    	}
-    	int tmp = nums[j];
-    	for(int k=j; k>i;k--) {
-    		nums[k] = nums[k-1];
-    	}
-    	nums[i] = tmp;
-    }
-
-    void recover(int[] nums, int i, int j) {
-    	if(i == j) {
-    		return;
-    	}
-    	int tmp = nums[i];
-    	for(int k=i; k<j; k++) {
-    		nums[k] = nums[k+1];
-    	}
-    	nums[j] = tmp;
-    }
 }
