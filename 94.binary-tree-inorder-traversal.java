@@ -13,9 +13,24 @@ class Solution {
         if(root == null) {
         	return result;
         }
-        result.addAll(inorderTraversal(root.left));
-        result.add(root.val);
-        result.addAll(inorderTraversal(root.right));
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while(!stack.isEmpty()) {
+        	TreeNode peek = stack.peek();
+        	if(peek.left != null) {
+        		stack.push(peek.left);
+        		peek.left = null;
+        	} else {
+        		stack.pop();
+        		result.add(peek.val);
+        		if(peek.right != null) {
+        			stack.push(peek.right);
+        		}
+        	}
+        }
+        // result.addAll(inorderTraversal(root.left));
+        // result.add(root.val);
+        // result.addAll(inorderTraversal(root.right));
         return result;
     }
 }
