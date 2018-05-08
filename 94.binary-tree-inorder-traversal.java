@@ -14,19 +14,15 @@ class Solution {
         	return result;
         }
         Stack<TreeNode> stack = new Stack<>();
-        stack.push(root);
-        while(!stack.isEmpty()) {
-        	TreeNode peek = stack.peek();
-        	if(peek.left != null) {
-        		stack.push(peek.left);
-        		peek.left = null;
-        	} else {
-        		stack.pop();
-        		result.add(peek.val);
-        		if(peek.right != null) {
-        			stack.push(peek.right);
-        		}
+        TreeNode currentNode = root;
+        while(currentNode != null || !stack.isEmpty()) {
+        	while(currentNode  != null) {
+        		stack.push(currentNode);
+        		currentNode = currentNode.left;
         	}
+        	currentNode = stack.pop();
+        	result.add(currentNode.val);
+        	currentNode = currentNode.right;
         }
         // result.addAll(inorderTraversal(root.left));
         // result.add(root.val);
