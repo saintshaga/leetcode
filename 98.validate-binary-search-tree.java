@@ -22,12 +22,6 @@ class Solution {
     	if(max != null && node.val >= max) {
     		return false;
     	}
-    	if(node.left != null && node.left.val >= node.val) {
-    		return false;
-    	}
-    	if(node.right != null && node.right.val <= node.val) {
-    		return false;
-    	}
     	return isValidBST(node.left, min, node.val) && isValidBST(node.right, node.val, max);
     }
 }
