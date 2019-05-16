@@ -3,14 +3,18 @@ class Solution {
         if(nums.length <= 1) {
         	return -1;
         }
-        int n = nums.length - 1;
-        for(int i=0; i<n; i++) {
-        	for(int j=i+1; j<n+1; j++) {
-        		if(nums[i] == nums[j]) {
-        			return nums[i];
-        		}
-        	}
+        int turtle = nums[0];
+        int rabit = nums[0];
+        do {
+        	turtle = nums[turtle];
+        	rabit = nums[nums[rabit]];
+        } while (turtle != rabit);
+        int num1 = nums[0];
+        int num2 = turtle;
+        while(num1 != num2) {
+        	num1 = nums[num1];
+        	num2 = nums[num2];
         }
-        return -1;
+        return num1;
     }
 }
