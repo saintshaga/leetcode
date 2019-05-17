@@ -3,21 +3,10 @@ class Solution {
         if(nums.length <= 1) {
         	return;
         }
-        int p1 = 0;
-        while(p1 < nums.length && nums[p1] != 0) {
-        	p1++;
-        }
-        int p2 = p1+1;
-        while(p1 < nums.length) {
-    	    while(p2 < nums.length && nums[p2] == 0) {
-    	    	p2++;
-    	    }
-    	    if(p2 == nums.length) {
-    	    	return;
-    	    }
-    	    swap(nums, p1, p2);
-    	    p1++;
-    	    p2++;
+        for(int p1 = 0, current = 0; current < nums.length; current++) {
+        	if(nums[current] != 0) {
+        		swap(nums, p1++, current);
+        	}
         }
     }
 
