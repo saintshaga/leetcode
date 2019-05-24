@@ -4,10 +4,20 @@ class Solution {
         	return;
         }
         k = k % (nums.length);
-        List<Integer> original = IntStream.of(nums).boxed().collect(Collectors.toList());
-        for(int i=0; i<nums.length; i++) {
-        	int index = (nums.length - k + i) % nums.length;
-        	nums[i] = original.get(index);
-        }
+        flip(nums, 0, nums.length-k-1);
+        flip(nums, nums.length-k, nums.length-1);
+        flip(nums, 0, nums.length-1);
+    }
+
+    private void flip(int[] nums, int start, int endInclusive) {
+    	for(int i=start; i<=(start+endInclusive)/2; i++) {
+    		swap(nums, i, start+endInclusive-i);
+    	}
+    }
+
+    private void swap(int[] nums, int i, int j) {
+    	int temp = nums[i];
+    	nums[i] = nums[j];
+    	nums[j] = temp;
     }
 }
