@@ -9,24 +9,30 @@
  */
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
-    	List<Integer> result = new ArrayList<>();
-        if(root == null) {
-        	return result;
-        }
         Stack<TreeNode> stack = new Stack<>();
-        TreeNode currentNode = root;
-        while(currentNode != null || !stack.isEmpty()) {
-        	while(currentNode  != null) {
-        		stack.push(currentNode);
-        		currentNode = currentNode.left;
-        	}
-        	currentNode = stack.pop();
-        	result.add(currentNode.val);
-        	currentNode = currentNode.right;
+        List<Integer> results = new ArrayList<>();
+        if(root == null) {
+        	return results;
         }
-        // result.addAll(inorderTraversal(root.left));
-        // result.add(root.val);
-        // result.addAll(inorderTraversal(root.right));
-        return result;
+        TreeNode current = root;
+        stack.push(root);
+        while(current != null || !stack.isEmpty()) {
+        	if(current != null) {
+        		current = current.left;
+        		if(current != null) {
+        			stack.push(current);
+        		}
+        	} else {
+        		current = stack.pop();
+        		results.add(current.val);
+        		if(current.right != null) {
+        			current = current.right;
+        			stack.push(current);
+        		} else {
+        			current = null;
+        		}
+        	}
+        }
+        return results;
     }
 }
