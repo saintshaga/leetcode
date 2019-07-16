@@ -9,29 +9,26 @@
  */
 class Solution {
     public TreeNode buildTree(int[] inorder, int[] postorder) {
-        if(inorder.length == 0 || inorder.length != postorder.length) {
-        	return null;
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i=0; i<inorder.length; i++) {
+        	map.put(inorder[i], i);
         }
-        return buildTree(inorder, 0, inorder.length-1, postorder, 0, postorder.length-1);
+        int[] reversePostorder = new int[postorder.length];
+        for(int i=0; i<postorder.length; i++) {
+        	reversePostorder[i] = postorder[postorder.length - i -1];
+        }
+        return buildTree(inorder, 0, inorder.length, reversePostorder, 0, reversePostorder.length, map);
     }
 
-    private TreeNode buildTree(int[] inorder, int st1, int ed1, int[] postorder, int st2, int ed2) {
-    	if(st1 > ed1 || st2 > ed2) {
+    private TreeNode buildTree(int[] inorder, int sti, int edi, int[] reversePostorder, int stp, int edp, Map<Integer, Integer> map) {
+    	if(sti >= edi || stp >= edp || sti < 0 || stp < 0 || edi > inorder.length || edp > reversePostorder.length) {
     		return null;
     	}
-    	TreeNode node = new TreeNode(postorder[ed2]);
-    	int index = -1;
-    	for(int i=st1; i<=ed1; i++) {
-    		if(inorder[i] == node.val) {
-    			index = i;
-    			break;
-    		}
-    	}
-    	if(index < 0) {
-    		return null;
-    	}
-    	node.left = buildTree(inorder, st1, index-1, postorder, st2, st2+index-st1-1);
-    	node.right = buildTree(inorder, index+1, ed1, postorder, st2+index-st1, ed2-1);
-    	return node;
+    	int rootVal = reversePostorder[stp];
+    	int indexInorder = map.get(rootVal);
+    	TreeNode root = new TreeNode(rootVal);
+    	root.right = buildTree(inorder, indexInorder+1, edi, reversePostorder, stp+1, stp+edi-indexInorder, map);
+    	root.left = buildTree(inorder, sti, indexInorder, reversePostorder, stp+edi-indexInorder, stp+edi-sti, map);
+    	return root;
     }
 }
