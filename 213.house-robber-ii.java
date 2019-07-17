@@ -15,10 +15,9 @@ class Solution {
         c[st] = nums[st];
         int max = nums[st], max2 = 0;
         for(int i=st+1; i<ed; i++) {
-        	int maxBefore = (i >= st+2) ? Math.max(c[st], max2) : max2;
-        	c[i] = nums[i] + maxBefore;
+        	c[i] = nums[i] + max2;
         	max = Math.max(max, c[i]);
-        	if(i>=st+2) {
+        	if(i>=st+1) {
         		max2 = Math.max(max2, c[i-1]);
         	}
         }
