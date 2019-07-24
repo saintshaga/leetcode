@@ -9,22 +9,24 @@
  */
 class Solution {
     public void flatten(TreeNode root) {
-
-    	flattenWithReturn(root);
+    	flat(root);
     }
-    private TreeNode flattenWithReturn(TreeNode root) {
-    	if(root == null) {
+
+    private TreeNode flat(TreeNode node) {
+    	if(node == null) {
     		return null;
     	}
-    	if(root.left == null && root.right == null) {
-    		return root;
-    	} else if(root.left == null) {
-    		return flattenWithReturn(root.right);
+    	TreeNode tail  = node;
+    	TreeNode right = node.right;
+    	if(node.left != null) {
+    		tail = flat(node.left);
+    		node.right = node.left;
+    		node.left = null;
+    		tail.right = right;
     	}
-    	TreeNode last = flattenWithReturn(root.left);
-    	last.right = root.right;
-    	root.right = root.left;
-    	root.left = null;
-    	return last.right == null ? last : flattenWithReturn(last.right);
+    	if(right != null) {
+    		tail = flat(right);
+    	}
+    	return tail;
     }
 }
