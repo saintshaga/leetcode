@@ -9,24 +9,32 @@
  */
 class Solution {
     public void flatten(TreeNode root) {
-    	flat(root);
-    }
-
-    private TreeNode flat(TreeNode node) {
-    	if(node == null) {
-    		return null;
+    	TreeNode current = root;
+    	Stack<TreeNode> stack = new Stack<>();
+    	Set<TreeNode> rightNodes = new HashSet<>();
+    	while(current != null || !stack.isEmpty()) {
+    		if(current != null) {
+    			rightNodes.add(current);
+    		}
+    		while(current != null) {
+    			stack.push(current);
+    			current = current.left;
+    		}
+    		current = stack.pop();
+    		TreeNode parent = null;
+    		if(!stack.isEmpty()) {
+    			parent = stack.peek();
+    		}
+    		if(!rightNodes.contains(current) && parent != null) {
+    			TreeNode tail = current;
+    			while(tail.right != null) {
+    				tail = tail.right;
+    			}
+    			tail.right = parent.right;
+    			parent.right = current;
+    			parent.left = null;
+    		}
+    		current = current.right;
     	}
-    	TreeNode tail  = node;
-    	TreeNode right = node.right;
-    	if(node.left != null) {
-    		tail = flat(node.left);
-    		node.right = node.left;
-    		node.left = null;
-    		tail.right = right;
-    	}
-    	if(right != null) {
-    		tail = flat(right);
-    	}
-    	return tail;
     }
 }
