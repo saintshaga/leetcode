@@ -1,36 +1,42 @@
 class Solution {
     public int divide(int dividend, int divisor) {
-        if(dividend == 0x80000000 && divisor == -1) {
-        	return 0x7fffffff;
-        }
-        boolean negetive = (dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0);
-        int result = 0;
-        while(canDivide(dividend, divisor, negetive)) {
-        	int added = 1;
-	        int i = divisor;
-	        while(legalForDouble(i) && canDivide(dividend, i+i, negetive)) {
-	        	i = i + i;
-	        	added = added + added;
-	        }
-	        dividend = divide(dividend, i, negetive);
-	        result = addResult(result, added, negetive);
-        }
-        return result;
-    }
+         if(divisor == Integer.MIN_VALUE) {
+         	return dividend == divisor ? 1 : 0;
+         }
+         if(dividend == 0) {
+         	return 0;
+         }
+         boolean positive = (dividend > 0 && divisor > 0) || (dividend < 0 && divisor < 0);
+         int plus = 0;
+         if(dividend == Integer.MIN_VALUE) {
+         	dividend = Integer.MAX_VALUE;
+         	plus = 1;
+         } else {
+         	dividend = Math.abs(dividend);
+         }
+         divisor = Math.abs(divisor);
+         if(divisor == 1) {
+         	return positive ? dividend : (-dividend-plus);
+         }
 
-    private boolean canDivide(int a, int b, boolean negetive) {
-    	return (a > 0 && divide(a,b,negetive) >= 0) || (a < 0 && divide(a,b,negetive) <= 0);
-    }
+         int result = 0;
+         while(dividend >= divisor) {
+         	int i = 1, lastI = 0;
+         	int currentDivisor = divisor, lastDivisor = 1;
+         	while(dividend >= currentDivisor && currentDivisor > 0) {
+         		lastDivisor = currentDivisor;
+         		lastI = i;
+         		currentDivisor = currentDivisor << 1;
+         		i = i << 1;
+         	}
+         	result += lastI;
+         	dividend -= lastDivisor;
+         	if(plus > 0) {
+         		dividend += plus;
+         		plus = 0;
+         	}
+         }
+         return positive ? result : -result;
 
-    private int divide(int a, int b, boolean negetive) {
-    	return negetive ? a + b : a - b;
-    }
-
-    private int addResult(int result, int added, boolean negetive) {
-    	return negetive ? result-added : result + added;
-    }
-
-    private boolean legalForDouble(int x) {
-    	return x >= 0xC0000000 && x < 0x40000000;
     }
 }
